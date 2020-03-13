@@ -30,9 +30,9 @@ void Unit::create(string t){
 		type = "Hero";
 		cout << "Please input your name: ";
 		getline(cin,name);
-		hpmax = rand()%20+90;
-		atk = rand()%5+14;
-		def = rand()%3+9;
+		hpmax = rand()%20+90; //90-109
+		atk = rand()%5+14; //14-18
+		def = rand()%3+9; //9-11
 	}else if(t == "Monster"){
 		type = "Monster";
 		name = "Monster";
@@ -64,12 +64,36 @@ void Unit::newTurn(){
 }
 
 //Write Function Member attack(), beAttacked(), heal(), guard() and isDead() here
-//
-//
-//
-//
-//
-//
+int Unit::attack(Unit& target){
+	target.beAttacked(atk);
+}
+
+int Unit::beAttacked(int oppatk){
+	int dmg = oppatk-def;
+	if(guard_on)dmg=dmg/3;
+	 
+	 if(dmg<0)dmg=0;
+	 hp = hp-dmg;
+	 if(hp<=0)cout<<">>"<<name<<"was defeated.\n";
+	 return dmg;
+}
+
+int Unit::heal(){
+	int heal =rand()%21+10;
+	if(hp+heal>hpmax) heal=hpmax-hp;
+	hp+=heal;
+	return heal;
+}
+
+void Unit::guard(){
+	guard_on=true;
+}
+
+bool Unit::isDead(){
+	if(hp<=0)return true;
+	else return false;
+}
+
 
 void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                                                       \n";
